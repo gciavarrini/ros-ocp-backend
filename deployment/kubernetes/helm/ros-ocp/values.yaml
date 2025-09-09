@@ -22,7 +22,7 @@ database:
     host: internal  # Use "internal" for the built-in database service, or specify external hostname
     port: 5432
     name: postgres
-    user: postgres
+    username: postgres
     password: postgres
     sslMode: disable
     url: postgresql://postgres:postgres@db-ros:5432/postgres?sslmode=disable
