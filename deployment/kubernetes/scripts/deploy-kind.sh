@@ -358,7 +358,9 @@ show_status() {
     echo_info "      - Web UI: minioaccesskey/miniosecretkey"
     echo_info "      - Use for: Visual file management, bucket operations, and storage monitoring"
     echo ""
-    
+    echo_info "  - Database (ROS): localhost:15432 (postgres/postgres)"
+    echo ""
+
     echo_info "Useful Commands:"
     echo_info "  - View logs: kubectl logs -n $NAMESPACE -l app.kubernetes.io/instance=$HELM_RELEASE_NAME"
     echo_info "  - Port forward ingress: kubectl port-forward -n $NAMESPACE svc/${HELM_RELEASE_NAME}-ingress 3000:3000"
