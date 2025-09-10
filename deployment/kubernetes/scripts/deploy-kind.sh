@@ -193,6 +193,16 @@ install_ingress_controller() {
     # Patch the service to use NodePort with specific ports for KIND port mapping
     kubectl patch service ingress-nginx-controller -n ingress-nginx --type='json' \
         -p='[{"op": "replace", "path": "/spec/type", "value": "NodePort"},{"op": "add", "path": "/spec/ports/0/nodePort", "value": 30080},{"op": "add", "path": "/spec/ports/1/nodePort", "value": 30443}]'
+
+    # Configure nginx to use fewer worker processes and increase resource limits for stability
+    kubectl patch configmap ingress-nginx-controller -n ingress-nginx --type='merge' \
+        -p='{"data":{"worker-processes":"2","worker-connections":"1024","max-worker-open-files":"2048"}}'
+
+    kubectl patch deployment ingress-nginx-controller -n ingress-nginx --type='json' \
+        -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/resources/requests/memory", "value": "256Mi"},{"op": "add", "path": "/spec/template/spec/containers/0/resources/limits", "value": {"memory": "512Mi", "cpu": "500m"}}]'
+
+    # Wait a bit for the configuration changes to take effect
+    sleep 10
     
     # Wait for ingress controller to be ready
     echo_info "Waiting for NGINX Ingress Controller to be ready..."
