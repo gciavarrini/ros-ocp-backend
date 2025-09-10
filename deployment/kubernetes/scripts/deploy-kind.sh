@@ -129,10 +129,10 @@ nodes:
       kubeletExtraArgs:
         node-labels: "ingress-ready=true"
   extraPortMappings:
-  - containerPort: 80
+  - containerPort: 30080
     hostPort: 7080
     protocol: TCP
-  - containerPort: 443
+  - containerPort: 30443
     hostPort: 7443
     protocol: TCP
   - containerPort: 30080
@@ -189,6 +189,10 @@ install_ingress_controller() {
     
     # Install NGINX Ingress Controller for cloud (works better with non-privileged ports)
     kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.13.2/deploy/static/provider/cloud/deploy.yaml
+
+    # Patch the service to use NodePort with specific ports for KIND port mapping
+    kubectl patch service ingress-nginx-controller -n ingress-nginx --type='json' \
+        -p='[{"op": "replace", "path": "/spec/type", "value": "NodePort"},{"op": "add", "path": "/spec/ports/0/nodePort", "value": 30080},{"op": "add", "path": "/spec/ports/1/nodePort", "value": 30443}]'
     
     # Wait for ingress controller to be ready
     echo_info "Waiting for NGINX Ingress Controller to be ready..."
