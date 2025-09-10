@@ -293,6 +293,10 @@ create_nodeport_services() {
         ]'
     
     echo_success "NodePort services created"
+
+    # Create Ingress to route API requests to ros-ocp-ingress service
+    kubectl create ingress ros-ocp-ingress-route -n "$NAMESPACE" --class=nginx --rule="/api/ingress/v1*=${HELM_RELEASE_NAME}-ingress:3000"
+    echo_success "Ingress routing configured"
 }
 
 # Function to show deployment status
