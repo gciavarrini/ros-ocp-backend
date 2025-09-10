@@ -337,7 +337,7 @@ show_status() {
     echo_info "      - Recommended for production-like testing"
     echo_info ""
     echo_info "  DIRECT SERVICE ENDPOINTS (Development/Debugging Access):"
-    echo_info "    Port 30080: http://localhost:30080/api/ingress/v1/version"
+    echo_info "    Port 7080: http://localhost:7080/api/ingress/v1/version"
     echo_info "      - Ingress Controller API: Monitor ingress controller health and configuration"
     echo_info "      - Use for: Verifying ingress controller is running and responsive"
     echo_info ""
@@ -374,7 +374,7 @@ run_health_checks() {
     local failed_checks=0
     
     # Check if ingress is accessible
-    if curl -f -s http://localhost:30080/api/ingress/v1/version >/dev/null; then
+    if curl -f -s http://localhost:7080/api/ingress/v1/version >/dev/null; then
         echo_success "Ingress API is accessible"
     else
         echo_error "Ingress API is not accessible"
