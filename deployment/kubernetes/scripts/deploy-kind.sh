@@ -187,8 +187,8 @@ install_storage_provisioner() {
 install_ingress_controller() {
     echo_info "Installing NGINX Ingress Controller..."
     
-    # Install NGINX Ingress Controller for KIND
-    kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
+    # Install NGINX Ingress Controller for cloud (works better with non-privileged ports)
+    kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.13.2/deploy/static/provider/cloud/deploy.yaml
     
     # Wait for ingress controller to be ready
     echo_info "Waiting for NGINX Ingress Controller to be ready..."
